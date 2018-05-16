@@ -10,17 +10,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
-
-
+//import static com.example.android.mynewsaapp2.MyItemNews.USGS_REQUEST_URL;
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<MyItemNews>>{
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
     public static  final String USGS_REQUEST_URL =
-     "https://newsapi.org/v2/top-headlines?sources=cnn&apiKey=dc97bfb10c9a4874873c1f8698cb54f6";
+            "https://newsapi.org/v2/top-headlines?sources=cnn&apiKey=dc97bfb10c9a4874873c1f8698cb54f6";
 
     private MyNewsAdapter newsAdapter;
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         loaderManager.initLoader(MYNEWS_LOADER_ID, null, this);
 
-      //  loaderManager.initLoader(MYNEWS_LOADER_ID, null, this);
+        //  loaderManager.initLoader(MYNEWS_LOADER_ID, null, this);
 
 
 

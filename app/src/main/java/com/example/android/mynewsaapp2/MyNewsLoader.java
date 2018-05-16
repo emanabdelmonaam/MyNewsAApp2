@@ -33,6 +33,3 @@ public class MyNewsLoader extends AsyncTaskLoader<List<MyItemNews>> {
 
     }
 }
-
-
-

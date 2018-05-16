@@ -6,15 +6,12 @@ public class MyItemNews {
     private String mTitle;
     private String mDescription;
     private String mUrl;
-    private int mUrlImage;
-    private int mDate;
-
-    public static  final String USGS_REQUEST_URL =
-            "https://newsapi.org/v2/top-headlines?sources=cnn&apiKey=dc97bfb10c9a4874873c1f8698cb54f6";
+    private String mUrlImage;
+    private String mDate;
 
 
 
-    public MyItemNews(String vAuthor, String vTitle, String vDescription, String vUrl, int vUrlImage, int vDate) {
+    public MyItemNews(String vAuthor, String vTitle, String vDescription, String vUrl, String vUrlImage, String vDate) {
 
         this.mAuthor = vAuthor;
         this.mTitle = vTitle;
@@ -41,11 +38,11 @@ public class MyItemNews {
         return mUrl;
     }
 
-    public int getmUrlImage() {
+    public String getmUrlImage() {
         return mUrlImage;
     }
 
-    public int getmDate() {
+    public String getmDate() {
         return mDate;
     }
 

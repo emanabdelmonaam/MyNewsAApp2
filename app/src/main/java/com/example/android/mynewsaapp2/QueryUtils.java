@@ -140,32 +140,21 @@ public class QueryUtils {
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
-            // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(myNewsJSON);
+            JSONArray newsArrayJson = baseJsonResponse.getJSONArray("article");
 
-
-            // Extract the JSONArray associated with the key called "features",
-            // which represents a list of features (or earthquakes).
-
-            JSONObject myStatus = baseJsonResponse.getJSONObject("status");
-            JSONArray newsArrayJson = myStatus.getJSONArray("articles");
-
-            // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
             for (int i = 0; i < newsArrayJson.length(); i++) {
 
-                // Get a single earthquake at position i within the list of earthquakes
-                JSONObject currentNews = newsArrayJson.getJSONObject(i);
-
-                 String Title = currentNews.getString("title");
-                 String Author = currentNews.getString("author");
-                  //String Author = null;
-
-                 String Description = currentNews.getString("description");
-                 String WebUrl = currentNews.getString("url");
-                 int UrlImage = currentNews.getInt("urlToImage");
-                 int PublishedTime = currentNews.getInt("publishedAt");
+                JSONObject firstFeature = newsArrayJson.getJSONObject(0);
 
 
+                String Title = firstFeature.getString("title");
+                String Author = firstFeature.getString("author");
+                //String Author = null;
+                String Description = firstFeature.getString("description");
+                String WebUrl = firstFeature.getString("url");
+                String UrlImage = firstFeature.getString("urlToImage");
+                String PublishedTime = firstFeature.getString("publishedAt");
 
 
               MyItemNews myItemNews = new MyItemNews(Title, Author, Description, WebUrl, UrlImage, PublishedTime);
