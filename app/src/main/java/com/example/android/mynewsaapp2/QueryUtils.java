@@ -141,20 +141,22 @@ public class QueryUtils {
         try {
 
             JSONObject baseJsonResponse = new JSONObject(myNewsJSON);
-            JSONArray newsArrayJson = baseJsonResponse.getJSONArray("article");
+            JSONArray newsArrayJson = baseJsonResponse.getJSONArray("articles");
+
+            JSONObject firstFeature = newsArrayJson.getJSONObject(0);
 
             for (int i = 0; i < newsArrayJson.length(); i++) {
 
-                JSONObject firstFeature = newsArrayJson.getJSONObject(0);
+                JSONObject currentJson = newsArrayJson.getJSONObject(i);
 
 
-                String Title = firstFeature.getString("title");
-                String Author = firstFeature.getString("author");
+                String Title = currentJson.getString("title");
+                String Author = currentJson.getString("author");
                 //String Author = null;
-                String Description = firstFeature.getString("description");
-                String WebUrl = firstFeature.getString("url");
-                String UrlImage = firstFeature.getString("urlToImage");
-                String PublishedTime = firstFeature.getString("publishedAt");
+                String Description = currentJson.getString("description");
+                String WebUrl = currentJson.getString("url");
+                String UrlImage = currentJson.getString("urlToImage");
+                String PublishedTime = currentJson.getString("publishedAt");
 
 
               MyItemNews myItemNews = new MyItemNews(Title, Author, Description, WebUrl, UrlImage, PublishedTime);
