@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class MyNewsAdapter extends ArrayAdapter<MyItemNews> {
 
+    private String author;
     private static final String LOCATION_SEPARATOR = " of ";
 
 
@@ -38,17 +39,15 @@ public class MyNewsAdapter extends ArrayAdapter<MyItemNews> {
         textViewTitle.setText(currentmyNews.getmTitle());
 
         TextView textViewAuthor =(TextView) listItemView.findViewById(R.id.author_two);
-        textViewAuthor.setText(currentmyNews.getmAuthor());
+        processAuthorTextView(textViewAuthor, author);
+
+        //textViewAuthor.setText(currentmyNews.getmAuthor());
 
         TextView textViewDiscription =(TextView) listItemView.findViewById(R.id.description_three);
         textViewDiscription.setText(currentmyNews.getmDescription());
 
         TextView textViewUrl =(TextView) listItemView.findViewById(R.id.url_four);
         textViewUrl.setText(currentmyNews.getmUrl());
-
-       // ImageView imageViewUrl =(ImageView) listItemView.findViewById(R.id.news_image);
-       // imageViewUrl.setImageResource(currentmyNews.getmUrlImage());
-
 
         TextView textDate =(TextView) listItemView.findViewById(R.id.date_five);
         textDate.setText(currentmyNews.getmDate());
@@ -59,6 +58,16 @@ public class MyNewsAdapter extends ArrayAdapter<MyItemNews> {
 
     }
 
+    //This will check if the author is available and set it.
+    //If it is not, then take out the whole author TextView from the list_item
+    private void processAuthorTextView(TextView authorTextView, String author) {
+        if (author == null) {
+            authorTextView.setVisibility(View.GONE);
+        } else {
+            authorTextView.setVisibility(View.VISIBLE);
+            authorTextView.setText(author);
+        }
+    }
 
 }
 

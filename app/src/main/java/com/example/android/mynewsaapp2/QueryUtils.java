@@ -16,8 +16,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
-public class QueryUtils {
+public final class QueryUtils {
 
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
@@ -41,7 +42,8 @@ public class QueryUtils {
         }
 
         // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
-        //List<EarthquakeF> earthquakes = extractFeatureFromJson(jsonResponse);
+        //ArrayList<MyItemNews> myNewsArray = extractFeatureFromJson(jsonResponse);
+        //return myNewsArray;
 
         // Return the list of {@link Earthquake}s
         return (ArrayList<MyItemNews>) extractFeatureFromJson(jsonResponse);
@@ -157,7 +159,6 @@ public class QueryUtils {
                 String WebUrl = currentJson.getString("url");
                 String UrlImage = currentJson.getString("urlToImage");
                 String PublishedTime = currentJson.getString("publishedAt");
-
 
               MyItemNews myItemNews = new MyItemNews(Title, Author, Description, WebUrl, UrlImage, PublishedTime);
 

@@ -8,6 +8,7 @@ import java.util.List;
 
 public class MyNewsLoader extends AsyncTaskLoader<List<MyItemNews>> {
 
+    //Query URL
     private String mUrl;
 
     public MyNewsLoader(Context context, String vUrl) {
@@ -29,7 +30,6 @@ public class MyNewsLoader extends AsyncTaskLoader<List<MyItemNews>> {
 
         ArrayList<MyItemNews> myNewsArray = QueryUtils.fetchMyNewsData(mUrl);
         return myNewsArray;
-
 
     }
 }

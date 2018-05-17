@@ -5,7 +5,7 @@
     <string name="near_the">Near the</string>
 
     <!-- Text to display in the list when there are no earthquakes [CHAR LIMIT=NONE] -->
-    <string name="no_earthquakes">No earthquakes found.</string>
+    <string name="no_news">No News found.</string>
 
     <!-- Error message when there is no internet connectivity [CHAR LIMIT=NONE] -->
     <string name="no_internet_connection">No internet connection.</string>
@@ -13,7 +13,7 @@
     <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
     <string name="settings_menu_item">Settings</string>
     <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
-    <string name="settings_title">Earthquake Settings</string>
+    <string name="settings_title">News Settings</string>
 
     <!-- Strings For Minimum Magnitude Preference [CHAR LIMIT=30] -->
     <string name="settings_min_magnitude_label">Minimum Magnitude</string>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Layout for Settings Activity, with a Preference Fragment -->
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings_fragment"
+    android:name="com.example.android.mynewsaapp2.SettingsActivity$MyNewsPreferenceFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-   >
+    tools:context="com.example.android.mynewsaapp2.SettingsActivity">
 </fragment>
