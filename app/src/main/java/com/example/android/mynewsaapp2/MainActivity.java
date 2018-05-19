@@ -8,40 +8,32 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<MyItemNews>>,
-             SharedPreferences.OnSharedPreferenceChangeListener{
+        SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
     public static  final String CNN_REQUEST_URL =
             "https://newsapi.org/v2/top-headlines?sources=cnn&apiKey=dc97bfb10c9a4874873c1f8698cb54f6";
 
-    private MyNewsAdapter newsAdapter;
+    private MyNewsAdapter myNewsAdapter;
 
     // Constant value for the story loader ID.
     private static final int MYNEWS_LOADER_ID = 1;
 
-    //Current network status.
-    // private NetworkInfo networkInfo;
-
     /** TextView that is displayed when the list is empty */
     private TextView mEmptyStateTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +46,11 @@ public class MainActivity extends AppCompatActivity
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         myNewsListView.setEmptyView(mEmptyStateTextView);
 
-       // Create a new adapter that takes an empty list
-       newsAdapter = new MyNewsAdapter(this, new ArrayList<MyItemNews>());
+        // Create a new adapter that takes an empty list
+        myNewsAdapter = new MyNewsAdapter(this, new ArrayList<MyItemNews>());
 
-       //set the Adapter
-        myNewsListView.setAdapter(newsAdapter);
+        //set the Adapter
+        myNewsListView.setAdapter(myNewsAdapter);
 
         // Obtain a reference to the SharedPreferences file for this app
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -70,21 +62,22 @@ public class MainActivity extends AppCompatActivity
         // Set an item click listener on the ListView,
         myNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-          @Override
-          public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-              // Find the current earthquake that was clicked on
-              MyItemNews currentMyNews = newsAdapter.getItem(position);
+                // Find the current earthquake that was clicked on
+                MyItemNews currentMyNews = myNewsAdapter.getItem(position);
 
-              // Convert the String URL into a URI object (to pass into the Intent constructor)
-              Uri myNewsUri = Uri.parse(currentMyNews.getmUrl());
+                // Convert the String URL into a URI object (to pass into the Intent constructor)
+                Uri myNewsUri = Uri.parse(currentMyNews.getmUrl());
 
-              // Create a new intent to view the earthquake URI
-              Intent websiteIntent = new Intent(Intent.ACTION_VIEW, myNewsUri);
+                // Create a new intent to view the earthquake URI
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, myNewsUri);
 
-               // Send the intent to launch a new activity
-               startActivity(websiteIntent);
-          }
+                // Send the intent to launch a new activity
+                startActivity(websiteIntent);
+            }
+
         });
 
         // Get a reference to the Connectivity Manager to check state of network connectivity
@@ -96,12 +89,12 @@ public class MainActivity extends AppCompatActivity
 
         // If there is a network connection, fetch data
         if (networkInfo != null && networkInfo.isConnected()) {
-            // Get a reference to the LoaderManager,
 
+            // Get a reference to the LoaderManager
 
-        LoaderManager loaderManager = getLoaderManager();
+          LoaderManager loaderManager = getLoaderManager();
 
-        loaderManager.initLoader(MYNEWS_LOADER_ID, null, this);
+           loaderManager.initLoader(MYNEWS_LOADER_ID, null, this);
         } else {
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
@@ -109,16 +102,16 @@ public class MainActivity extends AppCompatActivity
             loadingIndicator.setVisibility(View.GONE);
 
             // Update empty state with no connection error message
-            mEmptyStateTextView.setText(R.string.no_internet_connection);
+           mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equals(getString(R.string.settings_min_magnitude_key)) ||
+        if (key.equals(getString(R.string.settings_min_news_key)) ||
                 key.equals(getString(R.string.settings_order_by_key))){
             // Clear the ListView as a new query will be kicked off
-            newsAdapter.clear();
+            myNewsAdapter.clear();
 
             // Hide the empty state text view as the loading indicator will be displayed
             mEmptyStateTextView.setVisibility(View.GONE);
@@ -132,28 +125,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public Loader<List<MyItemNews>> onCreateLoader(int i, Bundle args) {
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String minMagnitude = sharedPrefs.getString(
-                getString(R.string.settings_min_magnitude_key),
-                getString(R.string.settings_min_magnitude_default));
-
-        String orderBy = sharedPrefs.getString(
-                getString(R.string.settings_order_by_key),
-                getString(R.string.settings_order_by_default)
-        );
-
-        Uri baseUri = Uri.parse(CNN_REQUEST_URL);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-
-        uriBuilder.appendQueryParameter("format", "geojson");
-        uriBuilder.appendQueryParameter("limit", "10");
-        uriBuilder.appendQueryParameter("orderby", orderBy);
-
-        return new MyNewsLoader(this, uriBuilder.toString());
+       return new MyNewsLoader(this, CNN_REQUEST_URL);
 
     }
 
@@ -164,16 +139,14 @@ public class MainActivity extends AppCompatActivity
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
-       // Set empty state text to display "No earthquakes found."
+        // Set empty state text to display "No earthquakes found."
         mEmptyStateTextView.setText(R.string.no_news);
 
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
-        // data set. This will trigger the ListView to update.
+        myNewsAdapter.clear();
 
         if (myNewsArray != null && !myNewsArray.isEmpty()) {
-            //newsAdapter.addAll(myNewsArray);
+            myNewsAdapter.addAll(myNewsArray);
             updateUi(myNewsArray);
-
         }
 
     }
@@ -183,26 +156,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<List<MyItemNews>> loader) {
-        newsAdapter.clear();
+        myNewsAdapter.clear();
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
-

@@ -2,13 +2,11 @@ package com.example.android.mynewsaapp2;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyNewsLoader extends AsyncTaskLoader<List<MyItemNews>> {
 
-    //Query URL
     private String mUrl;
 
     public MyNewsLoader(Context context, String vUrl) {
@@ -21,7 +19,6 @@ public class MyNewsLoader extends AsyncTaskLoader<List<MyItemNews>> {
         forceLoad();
     }
 
-    // This is on a background thread.
     @Override
     public ArrayList<MyItemNews> loadInBackground() {
         if (mUrl == null) {

@@ -2,32 +2,27 @@ package com.example.android.mynewsaapp2;
 
 public class MyItemNews {
 
-    private String mAuthor;
     private String mTitle;
+    private String mAuthor;
     private String mDescription;
     private String mUrl;
-    private String mUrlImage;
     private String mDate;
 
+    public MyItemNews(String vTitle, String vAuthor, String vDescription, String vUrl, String vDate) {
 
-
-    public MyItemNews(String vAuthor, String vTitle, String vDescription, String vUrl, String vUrlImage, String vDate) {
-
-        this.mAuthor = vAuthor;
         this.mTitle = vTitle;
+        this.mAuthor = vAuthor;
         this.mDescription = vDescription;
         this.mUrl = vUrl;
-        this.mUrlImage = vUrlImage;
         this.mDate=vDate;
-    }
-
-
-    public String getmAuthor() {
-        return mAuthor;
     }
 
     public String getmTitle() {
         return mTitle;
+    }
+
+    public String getmAuthor() {
+        return mAuthor;
     }
 
     public String getmDescription() {
@@ -38,13 +33,8 @@ public class MyItemNews {
         return mUrl;
     }
 
-    public String getmUrlImage() {
-        return mUrlImage;
-    }
-
     public String getmDate() {
         return mDate;
     }
-
 
 }

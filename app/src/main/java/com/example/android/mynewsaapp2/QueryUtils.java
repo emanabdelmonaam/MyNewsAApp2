@@ -2,11 +2,9 @@ package com.example.android.mynewsaapp2;
 
 import android.text.TextUtils;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 
 public final class QueryUtils {
 
@@ -38,14 +35,9 @@ public final class QueryUtils {
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
-        //ArrayList<MyItemNews> myNewsArray = extractFeatureFromJson(jsonResponse);
-        //return myNewsArray;
-
-        // Return the list of {@link Earthquake}s
+        // Return the list
         return (ArrayList<MyItemNews>) extractFeatureFromJson(jsonResponse);
     }
 
@@ -82,36 +74,29 @@ public final class QueryUtils {
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            // If the request was successful (response code 200),
-            // then read the input stream and parse the response.
             if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
             if (inputStream != null) {
-                // Closing the input stream could throw an IOException, which is why
-                // the makeHttpRequest(URL url) method signature specifies than an IOException
-                // could be thrown.
                 inputStream.close();
             }
         }
         return jsonResponse;
     }
 
-    /**
-     * Convert the {@link InputStream} into a String which contains the
-     * whole JSON response from the server.
-     */
     private static String readFromStream(InputStream inputStream) throws IOException {
+
         StringBuilder output = new StringBuilder();
+
         if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader reader = new BufferedReader(inputStreamReader);
@@ -124,22 +109,16 @@ public final class QueryUtils {
         return output.toString();
     }
 
-    /**
-     * Return a list of {@link MyItemNews} objects that has been built up from
-     * parsing the given JSON response.
-     */
     private static ArrayList<MyItemNews> extractFeatureFromJson(String myNewsJSON) {
+
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(myNewsJSON)) {
             return null;
         }
 
-        // Create an empty ArrayList that we can start adding earthquakes to
+        // Create an empty ArrayList
         ArrayList<MyItemNews> myNewsArray = new ArrayList<>();
 
-        // Try to parse the JSON response string. If there's a problem with the way the JSON
-        // is formatted, a JSONException exception object will be thrown.
-        // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
             JSONObject baseJsonResponse = new JSONObject(myNewsJSON);
@@ -151,32 +130,24 @@ public final class QueryUtils {
 
                 JSONObject currentJson = newsArrayJson.getJSONObject(i);
 
-
                 String Title = currentJson.getString("title");
                 String Author = currentJson.getString("author");
-                //String Author = null;
                 String Description = currentJson.getString("description");
                 String WebUrl = currentJson.getString("url");
-                String UrlImage = currentJson.getString("urlToImage");
                 String PublishedTime = currentJson.getString("publishedAt");
 
-              MyItemNews myItemNews = new MyItemNews(Title, Author, Description, WebUrl, UrlImage, PublishedTime);
-
+                MyItemNews myItemNews = new MyItemNews(Title, Author, Description, WebUrl, PublishedTime);
                 myNewsArray.add(myItemNews);
 
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            e.printStackTrace();
+
         }
 
-        // Return the list of earthquakes
+        // Return the list of news
         return myNewsArray;
     }
 
 }
-
-
