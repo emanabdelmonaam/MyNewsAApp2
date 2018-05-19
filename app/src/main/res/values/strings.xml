@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">My News App Finl</string>
-    <string name="no_internet_connection">No internet connection.</string>
-    <string name="no_news">No News found.</string>
+    <string name="app_name">My News App Stage1 </string>
+    <string name="no_internet_connection">Unfortunately there are No internet connection.</string>
+    <string name="no_news">" Currently there are no stories for you. Please come back later and try again."</string>
     <string name="settings_min_news_key" translatable="false">min</string>
     <string name="settings_order_by_key" translatable="false">order_by</string>
     <string name="text_two">text_two</string>
     <string name="text_three">text_three</string>
     <string name="url_text">url_text</string>
     <string name="text_author">text_author</string>
-    <string name="cnn_news">CNN News</string>
+    <string name="cnn_news">guardian news</string>
     <string name="dividerHeight">5dp</string>
 </resources>

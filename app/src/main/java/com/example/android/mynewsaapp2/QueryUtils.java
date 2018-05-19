@@ -19,14 +19,14 @@ public final class QueryUtils {
 
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
-    private QueryUtils(){
+    private QueryUtils() {
 
     }
+
     /**
      * Returns new URL object from the given string URL.
      */
-    public static ArrayList<MyItemNews> fetchMyNewsData(String requestUrl)
-    {
+    public static ArrayList<News> fetchMyNewsData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -38,7 +38,7 @@ public final class QueryUtils {
         }
 
         // Return the list
-        return (ArrayList<MyItemNews>) extractFeatureFromJson(jsonResponse);
+        return (ArrayList<News>) extractFeatureFromJson(jsonResponse);
     }
 
     /**
@@ -109,7 +109,7 @@ public final class QueryUtils {
         return output.toString();
     }
 
-    private static ArrayList<MyItemNews> extractFeatureFromJson(String myNewsJSON) {
+    private static ArrayList<News> extractFeatureFromJson(String myNewsJSON) {
 
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(myNewsJSON)) {
@@ -117,37 +117,44 @@ public final class QueryUtils {
         }
 
         // Create an empty ArrayList
-        ArrayList<MyItemNews> myNewsArray = new ArrayList<>();
+        ArrayList<News> myNewsArray = new ArrayList<>();
 
         try {
 
             JSONObject baseJsonResponse = new JSONObject(myNewsJSON);
-            JSONArray newsArrayJson = baseJsonResponse.getJSONArray("articles");
+            JSONObject responsJsonObject = baseJsonResponse.getJSONObject("response");
+            JSONArray firstArrayJson = responsJsonObject.getJSONArray("results");
 
-            JSONObject firstFeature = newsArrayJson.getJSONObject(0);
+            //JSONObject firstFeature = newsArrayJson.getJSONObject(0);
 
-            for (int i = 0; i < newsArrayJson.length(); i++) {
+            for (int i = 0; i < firstArrayJson.length(); i++) {
 
-                JSONObject currentJson = newsArrayJson.getJSONObject(i);
+                JSONObject currentJson = firstArrayJson.getJSONObject(i);
 
-                String Title = currentJson.getString("title");
-                String Author = currentJson.getString("author");
-                String Description = currentJson.getString("description");
-                String WebUrl = currentJson.getString("url");
-                String PublishedTime = currentJson.getString("publishedAt");
+                String title = currentJson.getString("webTitle");
+                String type = currentJson.getString("type");
+                String sectionName = currentJson.getString("sectionName");
+                String publishedTime = currentJson.getString("webPublicationDate");
+                String url = currentJson.getString("webUrl");
+                JSONArray tagsArrayJson = currentJson.getJSONArray("tags");
+                String authorName = "";
+                if (tagsArrayJson.length() != 0) {
+                    JSONObject currentTagsArray = tagsArrayJson.getJSONObject(0);
+                    authorName = currentTagsArray.getString("webTitle");
+                } else {
+                    authorName = "No Author ..";
+                }
 
-                MyItemNews myItemNews = new MyItemNews(Title, Author, Description, WebUrl, PublishedTime);
+                News myItemNews = new News(title, type, sectionName, publishedTime, authorName, url);
                 myNewsArray.add(myItemNews);
 
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
-
         }
 
-        // Return the list of news
+        // Return to the list of news
         return myNewsArray;
     }
-
 }

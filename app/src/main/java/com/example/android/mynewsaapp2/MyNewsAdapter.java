@@ -8,18 +8,19 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-public class MyNewsAdapter extends ArrayAdapter<MyItemNews> {
+public class MyNewsAdapter extends ArrayAdapter<News> {
 
        private static final String LOCATION_SEPARATOR = " of ";
 
-    public MyNewsAdapter(Context context, ArrayList<MyItemNews>newsArrayList) {
+    public MyNewsAdapter(Context context, ArrayList<News>newsArrayList) {
         super(context, 0, newsArrayList);
 
     }
 
     @Override
     public View getView(int position,  View convertView,  ViewGroup parent) {
-// Check if an existing view is being reused, otherwise inflate the view
+
+      // Check if an existing view is being reused, otherwise inflate the view
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
@@ -27,23 +28,23 @@ public class MyNewsAdapter extends ArrayAdapter<MyItemNews> {
         }
 
         // Get the object located at this position in the list
-        MyItemNews currentmyNews = getItem(position);
+        News currentmyNews = getItem(position);
 
-        // Find the TextView with view ID magnitude
-        TextView textViewTitle =(TextView) listItemView.findViewById(R.id.title_one);
+        // Find the TextView with view ID
+        TextView textViewTitle =(TextView) listItemView.findViewById(R.id.text_title);
         textViewTitle.setText(currentmyNews.getmTitle());
 
-        TextView textAuthor = (TextView) listItemView.findViewById(R.id.author_two);
-        textAuthor.setText(currentmyNews.getmAuthor());
+        TextView textViewType =(TextView) listItemView.findViewById(R.id.text_section);
+        textViewType.setText(currentmyNews.getmType());
 
-        TextView textViewDiscription =(TextView) listItemView.findViewById(R.id.description_three);
-        textViewDiscription.setText(currentmyNews.getmDescription());
+        TextView textViewSection =(TextView) listItemView.findViewById(R.id.text_type);
+        textViewSection.setText(currentmyNews.getmSection());
 
-        TextView textViewUrl =(TextView) listItemView.findViewById(R.id.url_four);
-        textViewUrl.setText(currentmyNews.getmUrl());
+        TextView textViewDate =(TextView) listItemView.findViewById(R.id.text_date);
+        textViewDate.setText(currentmyNews.getmDate());
 
-        TextView textDate =(TextView) listItemView.findViewById(R.id.date_five);
-        textDate.setText(currentmyNews.getmDate());
+        TextView textViewAuthor = (TextView) listItemView.findViewById(R.id.text_author);
+        textViewAuthor.setText(currentmyNews.getmAuthor());
 
         return listItemView;
     }

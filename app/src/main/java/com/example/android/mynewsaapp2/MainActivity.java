@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<MyItemNews>>,
+        implements LoaderManager.LoaderCallbacks<List<News>>,
         SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
     public static  final String CNN_REQUEST_URL =
-            "https://newsapi.org/v2/top-headlines?sources=cnn&apiKey=dc97bfb10c9a4874873c1f8698cb54f6";
+            "http://content.guardianapis.com/search?q=debates&section=politics&show-tags=contributor&api-key=test";
 
     private MyNewsAdapter myNewsAdapter;
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         myNewsListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list
-        myNewsAdapter = new MyNewsAdapter(this, new ArrayList<MyItemNews>());
+        myNewsAdapter = new MyNewsAdapter(this, new ArrayList<News>());
 
         //set the Adapter
         myNewsListView.setAdapter(myNewsAdapter);
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 // Find the current earthquake that was clicked on
-                MyItemNews currentMyNews = myNewsAdapter.getItem(position);
+                News currentMyNews = myNewsAdapter.getItem(position);
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
                 Uri myNewsUri = Uri.parse(currentMyNews.getmUrl());
@@ -126,14 +126,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public Loader<List<MyItemNews>> onCreateLoader(int i, Bundle args) {
+    public Loader<List<News>> onCreateLoader(int i, Bundle args) {
 
        return new MyNewsLoader(this, CNN_REQUEST_URL);
 
     }
 
     @Override
-    public void onLoadFinished(Loader<List<MyItemNews>> loader, List<MyItemNews> myNewsArray) {
+    public void onLoadFinished(Loader<List<News>> loader, List<News> myNewsArray) {
 
         // Hide loading indicator because the data has been loaded
         View loadingIndicator = findViewById(R.id.loading_indicator);
@@ -146,16 +146,11 @@ public class MainActivity extends AppCompatActivity
 
         if (myNewsArray != null && !myNewsArray.isEmpty()) {
             myNewsAdapter.addAll(myNewsArray);
-            updateUi(myNewsArray);
         }
-
-    }
-
-    private void updateUi(List<MyItemNews> myNewsArray) {
     }
 
     @Override
-    public void onLoaderReset(Loader<List<MyItemNews>> loader) {
+    public void onLoaderReset(Loader loader) {
         myNewsAdapter.clear();
 
     }
