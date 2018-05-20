@@ -2,9 +2,11 @@ package com.example.android.mynewsaapp2;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +15,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public final class QueryUtils {
 
@@ -134,7 +138,17 @@ public final class QueryUtils {
                 String title = currentJson.getString("webTitle");
                 String type = currentJson.getString("type");
                 String sectionName = currentJson.getString("sectionName");
+
+                //Format time and date
+
                 String publishedTime = currentJson.getString("webPublicationDate");
+                Date finalDate = null;
+                try {
+                    finalDate = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")).parse(publishedTime);
+                } catch (Exception e) {
+
+                }
+
                 String url = currentJson.getString("webUrl");
                 JSONArray tagsArrayJson = currentJson.getJSONArray("tags");
                 String authorName = "";
@@ -145,7 +159,7 @@ public final class QueryUtils {
                     authorName = "No Author ..";
                 }
 
-                News myItemNews = new News(title, type, sectionName, publishedTime, authorName, url);
+                News myItemNews = new News(title, type, sectionName, finalDate, authorName, url);
                 myNewsArray.add(myItemNews);
 
             }

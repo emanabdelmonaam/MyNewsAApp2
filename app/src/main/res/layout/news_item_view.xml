@@ -31,17 +31,33 @@
             style="@style/two_text4"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_date"
-        style="@style/two_text5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_one" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linear_two"
+        app:layout_constraintTop_toBottomOf="@+id/linear_one">
+
+        <TextView
+            android:id="@+id/text_date"
+            style="@style/two_text5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear_one" />
+
+        <TextView
+            android:id="@+id/text_time"
+            style="@style/two_text5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear_one" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/text_author"
         style="@style/two_text6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_date" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_two" />
 </android.support.constraint.ConstraintLayout>

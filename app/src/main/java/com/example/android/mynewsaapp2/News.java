@@ -1,15 +1,17 @@
 package com.example.android.mynewsaapp2;
 
+import java.util.Date;
+
 public class News {
 
     private String mTitle;
     private String mType;
     private String mSection;
-    private String mDate;
+    private Date mDate;
     private String mAuthor;
     private String mUrl;
 
-    public News(String vTitle, String vType, String vSection, String vDate, String vAuthor, String vUrl) {
+    public News(String vTitle, String vType, String vSection, Date vDate, String vAuthor, String vUrl) {
 
         this.mTitle = vTitle;
         this.mType = vType;
@@ -31,7 +33,7 @@ public class News {
         return mSection;
     }
 
-    public String getmDate() {
+    public Date getmDate() {
         return mDate;
     }
 

@@ -2,10 +2,11 @@ package com.example.android.mynewsaapp2;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class MyNewsLoader extends AsyncTaskLoader<List<News>> {
+//Query URL
 
     private String mUrl;
 
@@ -20,13 +21,12 @@ public class MyNewsLoader extends AsyncTaskLoader<List<News>> {
     }
 
     @Override
-    public ArrayList<News> loadInBackground() {
+    public List<News> loadInBackground() {
         if (mUrl == null) {
             return null;
         }
 
-        ArrayList<News> myNewsArray = QueryUtils.fetchMyNewsData(mUrl);
-        return myNewsArray;
-
+        return QueryUtils.fetchMyNewsData(mUrl);
     }
+
 }
